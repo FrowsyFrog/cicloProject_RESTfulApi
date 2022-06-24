@@ -17,7 +17,8 @@ import com.ciclo.Util.CicloviaValidator;
 import com.ciclo.Util.ReportValidator;
 
 import org.springframework.transaction.annotation.Transactional;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -75,9 +76,13 @@ public class CicloviaService {
         return ciclovia;
     }
 
-    public List<Ciclovia> listAllCiclovias() {
-		return cicloviaRepository.findAll();
-	}
+    public Page<Ciclovia> getAllCiclovias(Pageable pageable) {
+        return cicloviaRepository.findAll(pageable);
+    }
+
+    public List<Ciclovia> listAllCiclovias(){
+        return cicloviaRepository.findAll();
+    }
 
     @Transactional
     public List<Calificacion> getCalificacionesById(Long idCiclovia) {

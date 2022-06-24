@@ -1,6 +1,8 @@
 package com.ciclo.Controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ciclo.Dto.CalificacionRequestDto;
 import com.ciclo.Dto.CalificacionResponseDto;
@@ -15,6 +17,9 @@ import com.ciclo.Services.CicloviaService;
 import com.ciclo.Util.EntityDtoConverter;
 import com.ciclo.Util.ReportDtoConverter;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -43,9 +49,25 @@ public class CicloviaController {
     }
 
     @GetMapping("list")
-	public ResponseEntity<List<CicloviaResponseDto>> listAllCiclovias() {
+    public ResponseEntity<List<CicloviaResponseDto>> listAllCiclovias() {
 		List<Ciclovia> response = cicloviaService.listAllCiclovias();
 		return new ResponseEntity<>(converter.convertCicloviasToDto(response), HttpStatus.OK);
+    }
+
+    @GetMapping("page")
+	public ResponseEntity<Map<String, Object>> pageAllCiclovias(@RequestParam(defaultValue = "0") int page,
+     @RequestParam(defaultValue = "3") int size) {
+        Pageable paging = PageRequest.of(page, size);
+        Page<Ciclovia> pageCiclovias = cicloviaService.getAllCiclovias(paging);
+		List<Ciclovia> ciclovias = pageCiclovias.getContent();
+        
+        Map<String,Object> response = new HashMap<>();
+        response.put("ciclovias", ciclovias);
+        response.put("currentPage", pageCiclovias.getNumber());
+        response.put("totalPages", pageCiclovias.getTotalPages());
+        response.put("totalItems", pageCiclovias.getTotalElements());
+
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
     @GetMapping("/{cicloviaId}")
