@@ -80,6 +80,10 @@ public class CicloviaService {
         return cicloviaRepository.findAll(pageable);
     }
 
+    public List<Ciclovia> listAllCiclovias(){
+        return cicloviaRepository.findAll();
+    }
+
     @Transactional
     public List<Calificacion> getCalificacionesById(Long idCiclovia) {
         CicloviaValidator.validateGetByCiclovia(cicloviaRepository.findCicloviaByCicloviaId(idCiclovia));

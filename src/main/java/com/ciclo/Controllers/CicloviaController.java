@@ -49,7 +49,13 @@ public class CicloviaController {
     }
 
     @GetMapping("list")
-	public ResponseEntity<Map<String, Object>> listAllCiclovias(@RequestParam(defaultValue = "0") int page,
+    public ResponseEntity<List<CicloviaResponseDto>> listAllCiclovias() {
+		List<Ciclovia> response = cicloviaService.listAllCiclovias();
+		return new ResponseEntity<>(converter.convertCicloviasToDto(response), HttpStatus.OK);
+    }
+
+    @GetMapping("page")
+	public ResponseEntity<Map<String, Object>> pageAllCiclovias(@RequestParam(defaultValue = "0") int page,
      @RequestParam(defaultValue = "3") int size) {
         Pageable paging = PageRequest.of(page, size);
         Page<Ciclovia> pageCiclovias = cicloviaService.getAllCiclovias(paging);
