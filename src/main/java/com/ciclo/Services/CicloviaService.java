@@ -51,6 +51,15 @@ public class CicloviaService {
     }
 
     @Transactional
+    public Calificacion updateCalificacion(Long idCalificacion, CalificacionRequestDto calificacionDto) {
+        Calificacion calificacion = calificacionRepository.findCalificacionByCalificacionId(idCalificacion);
+        CalificacionValidator.validateGetCalificacion(calificacion);
+        calificacion.setEstrellasCalificacion(calificacionDto.getEstrellasCalificacion());
+        calificacion.setDescripcionCalificacion(calificacionDto.getDescripcionCalificacion());
+        return calificacion;
+    }
+
+    @Transactional
     public Report createReport(Long idCiclovia, ReportRequest requestDto) {
         boolean repeatedId = reportRepository.getReportByIdUser(requestDto.getIdUser()) != null;
         ReportValidator.validateCreate(requestDto, repeatedId);
@@ -60,7 +69,7 @@ public class CicloviaService {
         reportObj.setDateReport(new Date());
         reportObj.setDescription(requestDto.getDescription());
         reportObj.setIdUser(requestDto.getIdUser());
-        reportObj.setCiclovia(ciclovia);
+        reportObj.setCiclovia(ciclovia.getIdCiclovia());
         return reportRepository.save(reportObj);
     }
     

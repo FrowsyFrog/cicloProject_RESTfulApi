@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,9 +35,8 @@ public class Calificacion {
     @Column(name="descripcionCalificacion")
     private String descripcionCalificacion;
     
-    @ManyToOne
-    @JoinColumn(name = "idCiclovia", nullable = true)
-    private Ciclovia ciclovia;
+    @Column(name = "idCiclovia", nullable = true)
+    private Long ciclovia;
 
     @Column(name = "idParking", nullable = true)
     private Long parking;
@@ -48,7 +45,7 @@ public class Calificacion {
         this.fechaCalificacion = new Date();
         this.estrellasCalificacion = calificacionDto.getEstrellasCalificacion();
         this.descripcionCalificacion = calificacionDto.getDescripcionCalificacion();
-        this.ciclovia = ciclovia;
+        this.ciclovia = ciclovia.getIdCiclovia();
     }
 
     public Calificacion(Parking parking, CalificacionRequestDto calificacionDto) {

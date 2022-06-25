@@ -20,6 +20,17 @@ public class ReportService {
         Report reportNew = initReport(reportRequest);
         return reportRepository.save(reportNew);
     }
+
+// updateReport
+    @Transactional
+    public Report updateReport(Long id, ReportRequest reportRequest) {
+        Report report = reportRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid report Id:" + id));
+        report.setDescription(reportRequest.getDescription());
+        report.setDateReport(new Date());
+        report.setIdUser(reportRequest.getIdUser());
+        return report;
+    }
+
     public List<Report> getAllReports() { return reportRepository.getAllReports(); }
 
 	 private Report initReport(ReportRequest reportRequest) {

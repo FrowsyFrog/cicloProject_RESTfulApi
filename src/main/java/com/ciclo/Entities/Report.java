@@ -1,6 +1,5 @@
 package com.ciclo.Entities;
 
-import javax.persistence.*;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -37,7 +34,6 @@ public class Report {
 	@Column(name="idUser")
 	private long idUser;
 
-	@ManyToOne
-    @JoinColumn(name = "idCiclovia", nullable = true)
-    private Ciclovia ciclovia;
+	@Column(name = "idCiclovia", nullable = true)
+    private Long ciclovia;
 }
