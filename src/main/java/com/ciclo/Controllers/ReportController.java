@@ -30,6 +30,12 @@ public class ReportController {
         return new ResponseEntity<>(converter.convertReportToDto(report), HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ReportResponse> updateReport(@PathVariable Long id, @RequestBody ReportRequest request) {
+        Report report = reportService.updateReport(id, request);
+        return new ResponseEntity<>(converter.convertReportToDto(report), HttpStatus.OK);
+    }
+
     @GetMapping("/findReports")
     public ResponseEntity<List<ReportResponse>> findReports() {
         List<Report> reports = reportService.getAllReports();
