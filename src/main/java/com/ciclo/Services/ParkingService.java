@@ -6,12 +6,15 @@ import java.util.List;
 import com.ciclo.Dto.CalificacionRequestDto;
 import com.ciclo.Dto.ParkingDtoRequest;
 import com.ciclo.Entities.Calificacion;
+import com.ciclo.Entities.Ciclovia;
 import com.ciclo.Entities.Parking;
 import com.ciclo.Repositories.CalificacionRepository;
 import com.ciclo.Repositories.ParkingRepository;
 import com.ciclo.Util.ParkingValidator;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -67,6 +70,8 @@ public class ParkingService {
 		return parkingRepository.findAll();
 	}
 
+
+
 	@Transactional
     public Float getAverageCalificacionById(Long idParking) {
         if(calificacionRepository.getCalificacionesById(idParking).size() == 0) return 0.0f;
@@ -101,4 +106,6 @@ public class ParkingService {
 	public static List<String> getNames(){
 		return parkingRepository.getNames();
 	}
+	@Transactional(readOnly = true)
+	public  List<Parking> getParkingsxStars(float stars){return parkingRepository.getParkingsxStars(stars);}
 }

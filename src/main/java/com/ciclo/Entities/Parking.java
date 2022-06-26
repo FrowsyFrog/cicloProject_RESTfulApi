@@ -36,6 +36,13 @@ public class Parking {
 	@Column
 	private float stars;
 
+	@Column
+	private int slotsOccupied;
+
+	@Column
+	private int totalSlots;
+
+
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "parking")
 	private List<Calificacion> calificaciones;
 
@@ -44,5 +51,7 @@ public class Parking {
 		this.isFull = false;
 		this.stars = 0;
 		this.calificaciones = new ArrayList<>();
+		this.slotsOccupied = 0;
+		this.totalSlots = parkingDto.getTotalSlots();
 	}
 }

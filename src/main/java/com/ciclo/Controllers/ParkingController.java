@@ -1,6 +1,8 @@
 package com.ciclo.Controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ciclo.Dto.CalificacionRequestDto;
 import com.ciclo.Dto.CalificacionResponseDto;
@@ -8,11 +10,15 @@ import com.ciclo.Dto.ParkingDtoRequest;
 import com.ciclo.Dto.ParkingDtoResponse;
 import com.ciclo.Entities.Calificacion;
 //import com.ciclo.Entities.Calificacion;
+import com.ciclo.Entities.Ciclovia;
 import com.ciclo.Entities.Parking;
 import com.ciclo.Services.ParkingService;
 import com.ciclo.Util.EntityDtoConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -95,5 +101,15 @@ public class ParkingController {
 	public ResponseEntity<Float> getCalificacionPromedioById(@PathVariable Long idParking) {
 		Float calificacionMessage = parkingService.getAverageCalificacionById(idParking);
 		return new ResponseEntity<>(calificacionMessage, HttpStatus.OK);
+	}
+	@GetMapping("/stars/{stars}")
+	public  ResponseEntity<List<ParkingDtoResponse>> getParkingsxStars(@PathVariable float stars){
+		List<Parking> parkings = parkingService.getParkingsxStars(stars);
+		int b=1;
+		for (int i=0; i<parkings.size();i++){
+			float starss = (float)(((int)(Math.pow(10,b)*parkings.get(i).getStars()))/Math.pow(10,b));
+			parkings.get(i).setStars(starss);
+		}
+		return new ResponseEntity<>(converter.convertEntityToDto2(parkings),HttpStatus.OK);
 	}
 }

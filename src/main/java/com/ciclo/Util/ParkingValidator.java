@@ -11,7 +11,9 @@ public class ParkingValidator {
 	public static boolean validateCreate(ParkingDtoRequest parkingDto) {
 		ArrayList<String> a = new ArrayList<String>(ParkingService.getNames());
 		if (parkingDto.getUbicacion() == null)
-			throw new IncorrectReportRequestException("Location field is empty");
+			throw new IncorrectReportRequestException("Ingrese una Ubicación");
+		else if (parkingDto.getTotalSlots() == 0)
+			throw new IncorrectReportRequestException("Necesita poner la cantidad de espacios totales");
 		else if(a.contains(parkingDto.getUbicacion()))
 			throw new IncorrectReportRequestException("El parking ya existe!");
 		return true;
