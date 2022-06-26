@@ -1,5 +1,6 @@
 package com.ciclo.Repositories;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User getUserByLogIn(@Param("email") String email, @Param("password") String password);
     @Query(value = "SELECT u FROM User u WHERE u.email = :email")
     User getUserByEmail(@Param("email") String email);
+    Optional<User> findByUsername(String username);
+    Boolean existsByUsername(String username);
+    Boolean existsByEmail(String email);
 }

@@ -3,6 +3,7 @@ package com.ciclo.Handler;
 import java.time.LocalDateTime;
 
 import com.ciclo.exception.ExceptionResponse;
+import com.ciclo.exception.GeneralServiceException;
 import com.ciclo.exception.IncorrectReportRequestException;
 import com.ciclo.exception.NotFoundException;
 
@@ -38,4 +39,9 @@ public class GenExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, response.getStatus());
     }
 
+    @ExceptionHandler(GeneralServiceException.class)
+    public ResponseEntity<Object> handleGeneralServiceException(GeneralServiceException exception, WebRequest request) {
+        ExceptionResponse response = new ExceptionResponse(exception.getMessage(), request.getDescription(false), HttpStatus.INTERNAL_SERVER_ERROR, LocalDateTime.now());
+        return new ResponseEntity<>(response, response.getStatus());
+    }
 }

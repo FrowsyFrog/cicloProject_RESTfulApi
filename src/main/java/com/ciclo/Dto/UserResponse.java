@@ -7,6 +7,4 @@ public class UserResponse {
     private String username;
     private String email;
     private String imageurl;
-    private String password;
-    private String cryptmethod;
 }

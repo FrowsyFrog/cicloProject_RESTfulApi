@@ -1,15 +1,10 @@
 package com.ciclo.Entities;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +16,11 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "_user")
+@Table(name = "_user",
+		uniqueConstraints = {
+			@UniqueConstraint(columnNames = "nombreUsuario"),
+			@UniqueConstraint(columnNames = "email")
+		})
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,6 +35,18 @@ public class User {
 	private String password;
 	@Column(name = "metodoEncriptacion")
 	private String cryptmethod;
+
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable( name = "user_roles",
+				joinColumns = @JoinColumn(name = "user_id"),
+				inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<Role> roles = new HashSet<>();
+	public Set<Role> getRoles() {
+		return roles;
+	}
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 
 	//@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	//private List<Report> reports;
