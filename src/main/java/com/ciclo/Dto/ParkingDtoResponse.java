@@ -8,4 +8,6 @@ public class ParkingDtoResponse {
 	boolean full;
 	double stars;
 	Long id;
+	int slotsOccupied;
+	int totalSlots;
 }

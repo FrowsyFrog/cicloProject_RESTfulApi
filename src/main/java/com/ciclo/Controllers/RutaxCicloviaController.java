@@ -54,6 +54,8 @@ public class RutaxCicloviaController {
 	@GetMapping("/tiempoEstimado/{ubicacionSalida}/{ubicacionLlegada}")
 	public ResponseEntity<Float> getTiempoEstimado(@PathVariable String ubicacionSalida, @PathVariable String ubicacionLlegada){
 		Float rutaxCicloviaMessage = rutaxCicloviaService.getTiempoEstimado(ubicacionSalida, ubicacionLlegada);
+		int b=2;
+		rutaxCicloviaMessage =(float)(((int)(Math.pow(10,b)*rutaxCicloviaMessage))/Math.pow(10,b));
 		return new ResponseEntity<>(rutaxCicloviaMessage,HttpStatus.OK);
 	}
 }
